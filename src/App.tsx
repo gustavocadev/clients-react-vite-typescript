@@ -4,11 +4,13 @@ import Home from "./pages/Home";
 import NewClient from "./pages/NewClient";
 import EditClient from "./pages/EditClient";
 import SeeClient from "./pages/SeeClient";
+import Index from "./pages/index";
 
 const App = () => {
     return (
         <BrowserRouter>
             <Routes>
+                <Route path="/" element={<Index />} />
                 <Route path="/clients" element={<Layout />}>
                     <Route index element={<Home />} />
                     <Route path="new" element={<NewClient />} />
