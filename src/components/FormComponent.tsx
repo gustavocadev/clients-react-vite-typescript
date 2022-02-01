@@ -10,7 +10,7 @@ export interface Client {
     email: string;
     telephone?: string;
     notes?: string;
-    id?: string;
+    _id?: string;
 }
 
 interface FormProps {
@@ -42,7 +42,7 @@ const FormComponent = ({ client, children, loading }: FormProps) => {
             if (client?.name) {
                 // Editing Register :D
                 res = await fetch(
-                    `${import.meta.env.VITE_API_URL}/${client.id}`,
+                    `${import.meta.env.VITE_API_URL}/${client._id}`,
                     {
                         method: "PUT",
                         body: JSON.stringify(values),
@@ -53,7 +53,7 @@ const FormComponent = ({ client, children, loading }: FormProps) => {
                 );
             } else {
                 // I create a new Register
-                res = await fetch("http://localhost:4000/clients", {
+                res = await fetch(`${import.meta.env.VITE_API_URL}`, {
                     method: "POST",
                     body: JSON.stringify(values),
                     headers: {

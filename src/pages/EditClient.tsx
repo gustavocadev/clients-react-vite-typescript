@@ -14,7 +14,7 @@ const EditClient = () => {
                 const res = await fetch(
                     `${import.meta.env.VITE_API_URL}/${id}`
                 );
-                const data = await res.json();
+                const { document: data } = await res.json();
 
                 setClient(data);
             } catch (error) {

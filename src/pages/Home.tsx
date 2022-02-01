@@ -4,32 +4,44 @@ import type { Client } from "../components/FormComponent";
 
 const Home = () => {
     const [clients, setClients] = useState<Client[]>([]);
-    console.log(import.meta.env.VITE_API_URL);
     useEffect(() => {
         const getClients = async () => {
             const res = await fetch(`${import.meta.env.VITE_API_URL}`);
 
-            const data = await res.json();
-
+            const { documents: data } = await res.json();
             setClients(data);
         };
         getClients();
     }, []);
 
     const handleDelete = async (id: string) => {
+        console.log(id);
         const userConfirm = confirm("¿Quiere eliminar a este cliente?");
         if (userConfirm) {
             try {
-                const res = await fetch(
-                    `${import.meta.env.VITE_API_URL}/${id}`,
-                    {
-                        method: "DELETE",
-                    }
+                const urls = [`${import.meta.env.VITE_API_URL}/${id}`];
+
+                const data = await Promise.all(
+                    urls.map(async (url) => {
+                        const res = await fetch(url, {
+                            method: "DELETE",
+                        });
+                        const data = res.json();
+                        return data;
+                    })
                 );
 
-                const data: Client[] = await res.json();
-                setClients(data);
-                console.log("eliminado", data);
+                // const [, res] = await Promise.all([
+                //     fetch(`${import.meta.env.VITE_API_URL}/${id}`, {
+                //         method: "DELETE",
+                //     }),
+                //     fetch(`${import.meta.env.VITE_API_URL}`),
+                // ]);
+
+                const { documents: clients } = data[0];
+                setClients(clients);
+                // console.log(clients);
+                // console.log("eliminado", data);
             } catch (error) {
                 console.log(error);
             }
@@ -53,7 +65,7 @@ const Home = () => {
                 <tbody>
                     {clients.map((client) => (
                         <ClientComponent
-                            key={client.id}
+                            key={client._id}
                             client={client}
                             handleDelete={handleDelete}
                         />

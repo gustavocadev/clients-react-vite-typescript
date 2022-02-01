@@ -12,10 +12,13 @@ const SeeClient = () => {
     useEffect(() => {
         const getClient = async () => {
             try {
-                const res = await fetch(`http://localhost:4000/clients/${id}`);
-                const data = await res.json();
+                const res = await fetch(
+                    `${import.meta.env.VITE_API_URL}/${id}`
+                );
+                const { document: data } = await res.json();
 
                 setClient(data);
+                // console.log(data);
             } catch (error) {
                 console.log(error);
             }
