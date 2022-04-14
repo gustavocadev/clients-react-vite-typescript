@@ -1,11 +1,14 @@
-import React from "react";
+import { ReactNode } from "react"
 
-const Alert = ({ children }: { children: string }) => {
-    return (
-        <span className="bg-rose-600  text-white rounded p-2 block text-center font-semibold text-lg">
-            {children}
-        </span>
-    );
-};
+type Props = {
+  children: string | ReactNode
+}
+const Alert = ({ children }: Props) => {
+  return (
+    <span className="bg-rose-600  text-white rounded p-2 block text-center font-semibold text-lg">
+      {children}
+    </span>
+  )
+}
 
-export default Alert;
+export default Alert
